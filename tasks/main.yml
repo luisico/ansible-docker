@@ -1,0 +1,42 @@
+---
+# Ref: https://docs.docker.com/engine/installation/linux/linux-postinstall/
+
+- name: Add yum repository
+  yum_repository: name=docker-ce description='Docker CE Stable' baseurl=https://download.docker.com/linux/centos/7/$basearch/stable enabled=0 gpgcheck=1 gpgkey=https://download.docker.com/linux/centos/gpg
+
+- name: Install docker
+  yum: name=docker-ce state=present enablerepo=docker-ce
+
+- name: Make sure docker group is present
+  group: name=docker state=present
+
+- name: Add users to docker group
+  user: name={{item}} groups=docker append=yes createhome=yes state=present
+  with_items: '{{docker_users}}'
+
+- name: Check kernel compatibility (>= 3.10)
+  assert: that='ansible_kernel.split("-")[0] | version_compare("3.10", ">=")' msg='Kernel version not compatible with docker'
+
+- include: user_namespace.yml
+  when: docker_user_namespace
+
+- name: Make sure docker directory exists
+  file: path=/etc/docker state=directory mode=0700 owner=root group=root
+
+- name: Configure daemon
+  template: dest=/etc/docker/daemon.json src=daemon.json.j2 mode=0644 owner=root group=root
+  notify: Restart docker
+  when: docker_user_namespace
+
+- block:
+  - name: Make sure systemd service directory exists
+    file: path=/etc/systemd/system/docker.service.d state=directory mode=0755 owner=root group=root
+
+  - name: Add environment variables to systemd
+    template: dest=/etc/systemd/system/docker.service.d/env.conf src=env.conf.j2 mode=0644 owner=root group=root
+    notify: Reload systemd and docker
+
+  when: docker_env != {}
+
+- name: Enable service
+  service: name=docker state=started enabled=yes

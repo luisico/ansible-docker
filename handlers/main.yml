@@ -1,0 +1,6 @@
+---
+- name: Restart docker
+  service: name=docker state=restarted
+
+- name: Reload systemd and docker
+  service: name=docker state=restarted daemon_reload=yes
