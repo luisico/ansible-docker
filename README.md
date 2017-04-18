@@ -26,6 +26,8 @@ Example:
   roles:
     - docker
 
+```
+
 TODO
 ----
 - Install specific version
