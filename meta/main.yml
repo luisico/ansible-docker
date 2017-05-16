@@ -1,7 +1,7 @@
+---
 galaxy_info:
   author: Luis Gracia
   description: Install Docker
-  company: EMBL-EBI
   license: CC-BY-SA 4.0
   min_ansible_version: 2.3
   platforms:
@@ -10,4 +10,6 @@ galaxy_info:
         - 7
   galaxy_tags:
     - system
+    - container
+    - docker
 dependencies: []
