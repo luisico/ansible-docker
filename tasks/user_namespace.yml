@@ -1,18 +1,18 @@
 ---
 - name: Collect grub cmdline options
   command: sed -n 's/GRUB_CMDLINE_LINUX="\(.*\)"/\1/p' /etc/default/grub
-  register: grub_cmdline
+  register: docker__r_grub_cmdline
   changed_when: false
   args:
     warn: false
 
 - name: Enable user namespace in kernel
-  lineinfile: dest=/etc/default/grub regexp='^{{item.key}}' line='{{item.key}}="{{grub_cmdline.stdout.split() | union(item.add) | difference(item.del) | join(" ")}}"' owner=root group=root mode=0644
+  lineinfile: dest=/etc/default/grub regexp='^{{item.key}}' line='{{item.key}}="{{docker__r_grub_cmdline.stdout.split() | union(item.add) | difference(item.del) | join(" ")}}"' owner=root group=root mode=0644
   with_items:
     - key: GRUB_CMDLINE_LINUX
       add: ['user_namespace.enable=1']
       del: []
-  register: grub
+  register: docker__r_grub
 
 - block:
   - name: Regenerate grub configuration
@@ -27,7 +27,7 @@
   - name: Wait for reboot
     wait_for_connection: timeout=300 delay=30
 
-  when: grub.changed
+  when: docker__r_grub.changed
 
 - name: Add namespace mapping files
   lineinfile: dest={{item}} state=present create=yes owner=root group=root mode=0600 line='dockremap:165536:65536'
