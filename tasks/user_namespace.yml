@@ -3,6 +3,7 @@
   command: sed -n 's/GRUB_CMDLINE_LINUX="\(.*\)"/\1/p' /etc/default/grub
   register: docker__r_grub_cmdline
   changed_when: false
+  check_mode: no
   args:
     warn: false
 
