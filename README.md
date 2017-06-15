@@ -2,8 +2,11 @@ Docker
 ======
 Install Docker.
 
-Requirements
-------------
+Docker is installed from packages available in Docker's CE Stable package repository.
+
+User namespaces can be optionally activated with variable `docker_user_namespace`. This might require regenerating the GRUB configuration and in turn restarting the server. A standard dorremap user will also be added to `/etc/subuid` and `/etc/subgid`.
+
+A list of environment variables can be added to Docker's systemd service using `docker_env`.
 
 Requirements
 ------------
