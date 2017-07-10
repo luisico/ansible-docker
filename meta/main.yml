@@ -2,7 +2,7 @@
 galaxy_info:
   author: Luis Gracia
   description: Install Docker
-  license: CC-BY-SA 4.0
+  license: MIT
   min_ansible_version: 2.3
   platforms:
     - name: EL
