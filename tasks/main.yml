@@ -17,7 +17,7 @@
 - name: Check kernel compatibility (>= 3.10)
   assert: that='ansible_kernel.split("-")[0] | version_compare("3.10", ">=")' msg='Kernel version not compatible with docker'
 
-- include: user_namespace.yml
+- import_tasks: user_namespace.yml
   when: docker_user_namespace
 
 - name: Make sure docker directory exists
