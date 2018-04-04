@@ -31,7 +31,7 @@
   when: docker__r_grub.changed
 
 - name: Add namespace mapping files
-  lineinfile: dest={{item}} state=present create=yes owner=root group=root mode=0600 line='dockremap:165536:65536'
+  lineinfile: dest={{item}} state=present create=yes owner=root group=root mode=0600 regexp='^dockremap:.*' line='dockremap:165536:65536'
   with_items:
     - /etc/subuid
     - /etc/subgid
