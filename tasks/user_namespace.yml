@@ -20,13 +20,13 @@
     command: grub2-mkconfig -o /boot/grub2/grub.cfg
 
   - name: Restart server
-    command: /sbin/shutdown -r +1
-    async: 0
+    shell: sleep 5 && /sbin/shutdown -r now "Reboot triggered by Ansible"
+    async: 1
     poll: 0
     ignore_errors: true
 
   - name: Wait for reboot
-    wait_for_connection: timeout=300 delay=30
+    wait_for_connection: delay=30
 
   when: docker__r_grub.changed
 
