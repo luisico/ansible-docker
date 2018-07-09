@@ -36,3 +36,7 @@
     - /etc/subuid
     - /etc/subgid
   notify: Restart docker
+
+- name: Add userns-remap option to docker daemon
+  set_fact:
+    docker_config: '{{docker_config | combine({"userns-remap": "default"})}}'

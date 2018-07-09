@@ -31,9 +31,8 @@
   file: path=/etc/docker state=directory mode=0700 owner=root group=root
 
 - name: Configure daemon
-  template: dest=/etc/docker/daemon.json src=daemon.json.j2 mode=0644 owner=root group=root
+  copy: dest=/etc/docker/daemon.json content='{{docker_config | to_nice_json}}' mode=0644 owner=root group=root
   notify: Restart docker
-  when: docker_user_namespace
 
 - block:
   - name: Make sure systemd service directory exists

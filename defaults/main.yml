@@ -10,3 +10,6 @@ docker_env: {}
 
 # Install docker compose
 docker_install_compose: yes
+
+# docker daemon configuration
+docker_config: {}
