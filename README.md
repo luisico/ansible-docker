@@ -34,6 +34,7 @@ TODO
 - Install specific version
 - Support docker-ee
 - Make sure docker service is restarted after firewalld service, if firewalld is active
+- Install bash completion for docker-compose
 
 License
 -------
