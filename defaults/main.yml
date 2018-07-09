@@ -3,7 +3,10 @@
 docker_users: []
 
 # Enable user namespace in kernel
-docker_user_namespace: true
+docker_user_namespace: no
 
 # Environment passed to docker's service
 docker_env: {}
+
+# Install docker compose
+docker_install_compose: yes
