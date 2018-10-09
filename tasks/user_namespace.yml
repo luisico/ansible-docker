@@ -11,7 +11,9 @@
   lineinfile: dest=/etc/default/grub regexp='^{{item.key}}' line='{{item.key}}="{{docker__r_grub_cmdline.stdout.split() | union(item.add) | difference(item.del) | join(" ")}}"' owner=root group=root mode=0644
   with_items:
     - key: GRUB_CMDLINE_LINUX
-      add: ['user_namespace.enable=1']
+      add:
+        - 'user_namespace.enable=1'
+        - 'namespace.unpriv_enable=1'
       del: []
   register: docker__r_grub
 
@@ -40,3 +42,7 @@
 - name: Add userns-remap option to docker daemon
   set_fact:
     docker_config: '{{docker_config | combine({"userns-remap": "default"})}}'
+
+- name: Increase max_user_namespaces
+  sysctl: name=user.max_user_namespaces value=15076 state=present
+  when: ansible_distribution_version is version("7.4", ">=")
