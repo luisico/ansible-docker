@@ -13,6 +13,7 @@
 - name: Install docker compose
   pip: name=docker-compose
   when: docker_install_compose
+  ignore_errors: '{{ansible_check_mode}}'
 
 - name: Make sure docker group is present
   group: name=docker state=present
