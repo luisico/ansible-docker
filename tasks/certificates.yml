@@ -1,0 +1,17 @@
+---
+- name: Create directory for certificates
+  file: path={{docker_certs_path}} state=directory owner=root group=root mode='0666'
+
+- name: Add ca certificate
+  copy: dest={{docker_certs_path}}/ca.pem content='{{docker_ca_cert}}' owner=root group=root mode='0444'
+
+- name: Add server certificate
+  copy: dest={{docker_certs_path}}/server-cert.pem content='{{docker_server_cert}}' owner=root group=root mode='0444'
+
+- name: Add ca private key
+  copy: dest={{docker_certs_path}}/server-key.pem content='{{docker_server_key}}' owner=root group=root mode='0400'
+  no_log: yes
+
+- name: Add certificates config to daemon
+  set_fact:
+    docker_config: '{{ {"tlsverify":true, "tlscacert":"{{docker_certs_path}}/ca.pem", "tlscert":"{{docker_certs_path}}/server-cert.pem", "tlskey":"{{docker_certs_path}}/server-key.pem"} | combine(docker_config) }}'

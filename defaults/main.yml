@@ -15,3 +15,9 @@ docker_install_compose: yes
 docker_config:
   hosts:
     - 'fd://'
+
+# Docker tls certificates
+docker_certs_path: /etc/docker/certs.d
+docker_ca_cert:
+docker_server_cert:
+docker_server_key:

@@ -31,6 +31,13 @@
 - name: Make sure docker directory exists
   file: path=/etc/docker state=directory mode=0700 owner=root group=root
 
+- name: Install server certificate
+  import_tasks: certificates.yml
+  when:
+    - docker_ca_cert is defined and docker_ca_cert
+    - docker_server_cert is defined and docker_server_cert
+    - docker_server_key is defined and docker_server_key
+
 - name: Configure daemon
   copy: dest=/etc/docker/daemon.json content='{{docker_config | to_nice_json}}' mode=0644 owner=root group=root
   notify: Restart docker
