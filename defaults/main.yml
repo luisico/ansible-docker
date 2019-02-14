@@ -21,3 +21,7 @@ docker_certs_path: /etc/docker/certs.d
 docker_ca_cert:
 docker_server_cert:
 docker_server_key:
+
+# Docker swarm
+docker_swarm:
+docker_swarm_addr:

@@ -56,3 +56,7 @@
 
 - name: Enable service
   service: name=docker state=started enabled=yes
+
+- name: Init swarm
+  docker_swarm: state=present advertise_addr='{{docker_swarm_addr | default(omit)}}'
+  when: docker_swarm == 'manager'
