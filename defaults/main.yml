@@ -11,5 +11,7 @@ docker_env: {}
 # Install docker compose
 docker_install_compose: yes
 
-# docker daemon configuration
-docker_config: {}
+# Docker daemon configuration
+docker_config:
+  hosts:
+    - 'fd://'

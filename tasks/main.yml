@@ -35,14 +35,16 @@
   copy: dest=/etc/docker/daemon.json content='{{docker_config | to_nice_json}}' mode=0644 owner=root group=root
   notify: Restart docker
 
-- block:
-  - name: Make sure systemd service directory exists
-    file: path=/etc/systemd/system/docker.service.d state=directory mode=0755 owner=root group=root
+- name: Make sure systemd service directory exists
+  file: path=/etc/systemd/system/docker.service.d state=directory mode=0755 owner=root group=root
 
-  - name: Add environment variables to systemd
-    template: dest=/etc/systemd/system/docker.service.d/env.conf src=env.conf.j2 mode=0644 owner=root group=root
-    notify: Reload systemd and docker
+- name: Remove docker daemon options from systemd unit
+  template: dest=/etc/systemd/system/docker.service.d/start.conf src=start.conf.j2 mode=0644 owner=root group=root
+  notify: Reload systemd and docker
 
+- name: Add environment variables to systemd
+  template: dest=/etc/systemd/system/docker.service.d/env.conf src=env.conf.j2 mode=0644 owner=root group=root
+  notify: Reload systemd and docker
   when: docker_env != {}
 
 - name: Enable service
