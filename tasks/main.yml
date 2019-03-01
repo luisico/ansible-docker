@@ -38,6 +38,10 @@
     - docker_server_cert is defined and docker_server_cert
     - docker_server_key is defined and docker_server_key
 
+- name: Configure docker hosts/listeners
+  set_fact:
+    docker_config: '{{ {"hosts": docker_hosts} | combine(docker_config) }}'
+
 - name: Configure daemon
   copy: dest=/etc/docker/daemon.json content='{{docker_config | to_nice_json}}' mode=0644 owner=root group=root
   notify: Restart docker

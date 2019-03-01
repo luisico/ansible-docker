@@ -12,9 +12,11 @@ docker_env: {}
 docker_install_compose: yes
 
 # Docker daemon configuration
-docker_config:
-  hosts:
-    - 'fd://'
+docker_config: {}
+
+# Docker hosts
+docker_hosts:
+  - 'fd://'
 
 # Docker tls certificates
 docker_certs_path: /etc/docker/certs.d
