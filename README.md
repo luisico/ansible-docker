@@ -2,7 +2,7 @@ Docker
 ======
 Install Docker.
 
-Docker is installed from packages available in Docker's CE Stable package repository. For Centos, the `centos-extra` repository must be enabled. For Red Hat, `centos-extra` needs to be also added, including Centos GPG key. These dependencies are not included in this role.
+Docker is installed from packages available in Docker's CE Stable package repository. For Centos, the `centos-extra` repository must be enabled. For Red Hat, `centos-extra` needs to be also added, including Centos GPG key. These dependencies are not included in this role. The latest docker version found in the repository is installed unless it is overridden with `docker_version`. Same version will be installed for docker engine and docker cli.
 
 User namespaces can be optionally activated with variable `docker_user_namespace` (default is `no`). This might require regenerating the GRUB configuration and in turn restarting the server. A standard dorremap user will also be added to `/etc/subuid` and `/etc/subgid`.
 
@@ -31,7 +31,6 @@ Example:
 
 TODO
 ----
-- Install specific version
 - Support docker-ee
 - Make sure docker service is restarted after firewalld service, if firewalld is active
 - Install bash completion for docker-compose

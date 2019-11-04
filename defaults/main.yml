@@ -1,5 +1,6 @@
 ---
 # Docker version
+# To install the latest patch for a minor version use something like '18.09.*'
 docker_version: latest
 
 # List of docker users (will be added to the docker group)
