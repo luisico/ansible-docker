@@ -1,0 +1,6 @@
+---
+docker_packages_version: '{{"" if docker_version == "latest" else ("-" + docker_version)}}'
+docker_packages_state: '{{"latest" if docker_version == "latest" else "present"}}'
+docker_packages:
+  - docker-ce{{docker_packages_version}}
+  - docker-ce-cli{{docker_packages_version}}

@@ -1,4 +1,7 @@
 ---
+# Docker version
+docker_version: latest
+
 # List of docker users (will be added to the docker group)
 docker_users: []
 
