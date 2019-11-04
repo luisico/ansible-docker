@@ -4,11 +4,12 @@
 - name: Add yum repository
   yum_repository: name=docker-ce description='Docker CE Stable' baseurl=https://download.docker.com/linux/centos/7/$basearch/stable enabled=0 gpgcheck=1 gpgkey=https://download.docker.com/linux/centos/gpg
 
-- name: Install docker and python module for ansible
-  yum: name={{item}} state=present enablerepo=docker-ce
-  with_items:
-    - docker-ce
-    - python-pip
+- name: Install python module for ansible
+  yum: name=python-pip state=present enablerepo=docker-ce
+
+- name: Install docker {{docker_version}}
+  yum: name={{docker_packages}} state={{docker_packages_state}} enablerepo=docker-ce allow_downgrade=yes
+  notify: Restart docker
 
 - name: Install docker compose
   pip: name=docker-compose
