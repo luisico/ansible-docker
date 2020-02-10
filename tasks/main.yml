@@ -64,4 +64,4 @@
 
 - name: Init swarm
   docker_swarm: state=present advertise_addr='{{docker_swarm_addr | default(omit)}}'
-  when: docker_swarm == 'manager'
+  when: docker_swarm_init | bool

@@ -29,5 +29,5 @@ docker_server_cert:
 docker_server_key:
 
 # Docker swarm
-docker_swarm:
+docker_swarm_init: no
 docker_swarm_addr:
