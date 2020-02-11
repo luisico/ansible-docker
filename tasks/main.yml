@@ -11,10 +11,15 @@
   yum: name={{docker_packages}} state={{docker_packages_state}} enablerepo=docker-ce allow_downgrade=yes
   notify: Restart docker
 
-- name: Install docker compose
-  pip: name=docker-compose
-  when: docker_install_compose
-  ignore_errors: '{{ansible_check_mode}}'
+- block:
+    - name: Find latest version of docker compose
+      uri: url=https://api.github.com/repos/docker/compose/releases/latest
+      register: docker__r_compose_latest
+      when: docker_compose_version == 'latest'
+
+    - name: Install docker compose as a container wrapper
+      get_url: dest=/usr/local/bin/docker-compose url=https://github.com/docker/compose/releases/download/{{docker__r_compose_latest.json.tag_name if docker_compose_version == 'latest' else docker_compose_version}}/run.sh owner=root group=root mode='0755' force=yes
+  when: docker_compose_install
 
 - name: Make sure docker group is present
   group: name=docker state=present

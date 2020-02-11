@@ -13,7 +13,8 @@ docker_user_namespace: no
 docker_env: {}
 
 # Install docker compose
-docker_install_compose: yes
+docker_compose_install: yes
+docker_compose_version: latest
 
 # Docker daemon configuration
 docker_config: {}
