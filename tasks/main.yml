@@ -15,6 +15,7 @@
     - name: Find latest version of docker compose
       uri: url=https://api.github.com/repos/docker/compose/releases/latest
       register: docker__r_compose_latest
+      check_mode: no
       when: docker_compose_version == 'latest'
 
     - name: Install docker compose as a container wrapper
