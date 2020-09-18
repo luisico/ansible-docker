@@ -27,7 +27,7 @@
 
 - name: Add users to docker group
   user: name={{item}} groups=docker append=yes createhome=yes state=present
-  with_items: '{{docker_users}}'
+  loop: '{{docker_users}}'
 
 - name: Check kernel compatibility (>= 3.10)
   assert: that='ansible_kernel.split("-")[0] is version("3.10", ">=")' msg='Kernel version not compatible with docker'

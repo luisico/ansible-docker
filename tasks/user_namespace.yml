@@ -9,7 +9,7 @@
 
 - name: Enable user namespace in kernel
   lineinfile: dest=/etc/default/grub regexp='^{{item.key}}' line='{{item.key}}="{{docker__r_grub_cmdline.stdout.split() | union(item.add) | difference(item.del) | join(" ")}}"' owner=root group=root mode=0644
-  with_items:
+  loop:
     - key: GRUB_CMDLINE_LINUX
       add:
         - 'user_namespace.enable=1'
@@ -34,7 +34,7 @@
 
 - name: Add namespace mapping files
   lineinfile: dest={{item}} state=present create=yes owner=root group=root mode=0600 regexp='^dockremap:.*' line='dockremap:165536:65536'
-  with_items:
+  loop:
     - /etc/subuid
     - /etc/subgid
   notify: Restart docker
